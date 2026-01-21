@@ -1,0 +1,100 @@
+# Water Quality Index Prediction for Niger Delta Rivers using ML & XGBoost
+# Author: Ebingiye Nelvin Agbozu
+
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
+from xgboost import XGBRegressor
+
+# --------------------------------------------------
+# Step 1: Generate Synthetic Water Quality Dataset
+# --------------------------------------------------
+np.random.seed(42)
+
+n_samples = 1000
+
+data = {
+    "pH": np.random.uniform(5.5, 8.5, n_samples),
+    "DO": np.random.uniform(2, 9, n_samples),          # Dissolved Oxygen (mg/L)
+    "BOD": np.random.uniform(1, 10, n_samples),         # Biological Oxygen Demand (mg/L)
+    "Turbidity": np.random.uniform(5, 150, n_samples),  # NTU
+    "TDS": np.random.uniform(50, 1200, n_samples),      # mg/L
+    "Nitrate": np.random.uniform(0.1, 20, n_samples),   # mg/L
+    "Phosphate": np.random.uniform(0.01, 5, n_samples), # mg/L
+    "Temperature": np.random.uniform(24, 34, n_samples) # °C
+}
+
+df = pd.DataFrame(data)
+
+# --------------------------------------------------
+# Step 2: Compute Water Quality Index (WQI)
+# Simplified weighted formula
+# --------------------------------------------------
+weights = {
+    "pH": 0.12,
+    "DO": 0.17,
+    "BOD": 0.11,
+    "Turbidity": 0.10,
+    "TDS": 0.10,
+    "Nitrate": 0.15,
+    "Phosphate": 0.15,
+    "Temperature": 0.10
+}
+
+# Normalize parameters
+df_norm = (df - df.min()) / (df.max() - df.min())
+
+df["WQI"] = sum(df_norm[param] * weight for param, weight in weights.items()) * 100
+
+# --------------------------------------------------
+# Step 3: Train-Test Split
+# --------------------------------------------------
+X = df.drop("WQI", axis=1)
+y = df["WQI"]
+
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=42
+)
+
+# --------------------------------------------------
+# Step 4: Train XGBoost Model
+# --------------------------------------------------
+model = XGBRegressor(
+    n_estimators=300,
+    learning_rate=0.05,
+    max_depth=6,
+    subsample=0.8,
+    colsample_bytree=0.8,
+    random_state=42
+)
+
+model.fit(X_train, y_train)
+
+# --------------------------------------------------
+# Step 5: Model Evaluation
+# --------------------------------------------------
+y_pred = model.predict(X_test)
+
+mae = mean_absolute_error(y_test, y_pred)
+rmse = np.sqrt(mean_squared_error(y_test, y_pred))
+r2 = r2_score(y_test, y_pred)
+
+print("Model Performance:")
+print(f"MAE  : {mae:.2f}")
+print(f"RMSE : {rmse:.2f}")
+print(f"R²   : {r2:.3f}")
+
+# --------------------------------------------------
+# Step 6: Visualization
+# --------------------------------------------------
+plt.figure(figsize=(7, 6))
+plt.scatter(y_test, y_pred, alpha=0.7)
+plt.plot([y.min(), y.max()], [y.min(), y.max()], linestyle="--")
+plt.xlabel("Actual WQI")
+plt.ylabel("Predicted WQI")
+plt.title("Actual vs Predicted Water Quality Index")
+plt.grid(True)
+plt.show()
