@@ -83,6 +83,12 @@ The project supports sustainable water management, pollution control, and decisi
 Author:
 AGBOZU EBINGIYE NELVIN
 
+🔗 GitHub: https://github.com/Nelvinebi
+
+🔗 LinkedIn: https://www.linkedin.com/in/agbozu-ebi/
+
+
+
 📄 License
 
 This project is for academic and research purposes.
