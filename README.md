@@ -1,5 +1,5 @@
 ### 💧 Water Quality Index Prediction for Niger Delta Rivers Using ML & XGBoost
-<div align="center">
+
 ![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
 ![XGBoost](https://img.shields.io/badge/XGBoost-EB5B2D?style=for-the-badge&logo=xgboost&logoColor=white)
 ![scikit-learn](https://img.shields.io/badge/scikit--learn-F7931E?style=for-the-badge&logo=scikit-learn&logoColor=white)
@@ -11,7 +11,6 @@
 ![License: MIT](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
 ![Status](https://img.shields.io/badge/Status-Complete-brightgreen?style=for-the-badge)
 ![Stars](https://img.shields.io/github/stars/Nelvinebi/Water-Quality-Index-Prediction-for-Niger-Delta-Rivers-Using-ML-and-XGBoost?style=for-the-badge&color=yellow)
-</div>
 
 > A machine learning pipeline that predicts **Water Quality Index (WQI)** for Niger Delta rivers using **XGBoost, Random Forest, and Linear Regression**, with **SHAP explainability** and **geospatial pollution mapping** to identify critical contamination zones across 4 states, 16 rivers, and 35 monitoring stations.
 
